@@ -11,7 +11,6 @@ import {
   Resolver,
 } from "type-graphql";
 import argon2 from "argon2";
-import { userInfo } from "os";
 
 @InputType()
 class UsernamePasswordInput {
@@ -63,7 +62,7 @@ export class UserResolver {
         errors: [
           {
             field: "username",
-            message: "length must be greate than 2",
+            message: "length must be greater than 2",
           },
         ],
       };
@@ -74,7 +73,7 @@ export class UserResolver {
         errors: [
           {
             field: "password",
-            message: "length must be greate than 3",
+            message: "length must be greater than 3",
           },
         ],
       };
