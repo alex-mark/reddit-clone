@@ -8,7 +8,6 @@ import {
   Mutation,
   ObjectType,
   Query,
-  ReflectMetadataMissingError,
   Resolver,
 } from "type-graphql";
 import argon2 from "argon2";
