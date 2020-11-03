@@ -20,10 +20,10 @@ const main = async () => {
 
   const app = express();
 
-  // Middlewares
   const RedisStore = connectRedis(session);
   const redisClient = redis.createClient();
 
+  // Middlewares
   app.use(
     cors({
       origin: "http://localhost:3000",
