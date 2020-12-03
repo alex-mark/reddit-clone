@@ -11,6 +11,7 @@ import session from "express-session";
 import connectRedis from "connect-redis";
 import cors from "cors";
 import { createConnection } from "typeorm";
+import path from "path";
 import { User } from "./entities/User";
 import { Post } from "./entities/Post";
 
@@ -23,8 +24,10 @@ const main = async () => {
     password: "postgres",
     logging: true,
     synchronize: true,
+    migrations: [path.join(__dirname, "./migrations/*")],
     entities: [Post, User],
   });
+  await conn.runMigrations();
 
   const RedisStore = connectRedis(session);
   const redis = new Redis();
