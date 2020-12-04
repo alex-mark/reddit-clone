@@ -27,7 +27,10 @@ const main = async () => {
     migrations: [path.join(__dirname, "./migrations/*")],
     entities: [Post, User],
   });
+  // migrate
   await conn.runMigrations();
+
+  // await Post.delete({});
 
   const RedisStore = connectRedis(session);
   const redis = new Redis();
