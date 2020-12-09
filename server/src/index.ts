@@ -10,6 +10,7 @@ import Redis from "ioredis";
 import session from "express-session";
 import connectRedis from "connect-redis";
 import cors from "cors";
+import "dotenv-safe/config";
 import { createConnection } from "typeorm";
 import path from "path";
 import { User } from "./entities/User";
@@ -22,9 +23,7 @@ const main = async () => {
   // DB stuff
   const conn = await createConnection({
     type: "postgres",
-    database: "reddit-clone2",
-    username: "postgres",
-    password: "postgres",
+    url: process.env.DATABASE_URL,
     logging: true,
     synchronize: true,
     migrations: [path.join(__dirname, "./migrations/*")],
@@ -33,10 +32,8 @@ const main = async () => {
   // migrate
   await conn.runMigrations();
 
-  // await Post.delete({});
-
   const RedisStore = connectRedis(session);
-  const redis = new Redis();
+  const redis = new Redis(process.env.REDIS_URL);
 
   // Express init
   const app = express();
@@ -44,7 +41,7 @@ const main = async () => {
   // Middlewares
   app.use(
     cors({
-      origin: "http://localhost:3000",
+      origin: process.env.CORS_ORIGIN,
       credentials: true,
     })
   );
@@ -58,9 +55,10 @@ const main = async () => {
         httpOnly: true,
         sameSite: "lax", // csrf
         secure: __prod__, // cookie only works in https
+        domain: __prod__ ? ".alexmarkin.com" : undefined,
       },
       saveUninitialized: false,
-      secret: "nvmfdhjghahsdfhsfdjgfsdgas", // change to env
+      secret: process.env.SESSION_SECRET,
       resave: false,
     })
   );
@@ -85,8 +83,8 @@ const main = async () => {
   });
 
   // Listen
-  app.listen(4000, () => {
-    console.log("Server started on localhost:4000");
+  app.listen(parseInt(process.env.PORT), () => {
+    console.log(`Server started on localhost:${process.env.PORT}`);
   });
 };
 
