@@ -25,7 +25,7 @@ const main = async () => {
     type: "postgres",
     url: process.env.DATABASE_URL,
     logging: true,
-    synchronize: true,
+    // synchronize: true,
     migrations: [path.join(__dirname, "./migrations/*")],
     entities: [Post, User, Updoot],
   });
@@ -37,6 +37,7 @@ const main = async () => {
 
   // Express init
   const app = express();
+  app.set("proxy", 1);
 
   // Middlewares
   app.use(
