@@ -21,6 +21,7 @@ import {
 } from "../generated/graphql";
 import { createUrqlClient } from "../utils/createUrqlClient";
 import { UpdootSection } from "../components/UpdootSection";
+import { EditDeletePostButtons } from "../components/EditDeletePostButtons";
 
 const Index = () => {
   const [variables, setVariables] = useState({
@@ -59,26 +60,7 @@ const Index = () => {
                   </Box>
 
                   {!(meData?.me?.id === p.creator.id) ? null : (
-                    <Box>
-                      <NextLink
-                        href="/post/edit/[id]"
-                        as={`/post/edit/${p.id}`}
-                      >
-                        <IconButton
-                          as={Link}
-                          icon="edit"
-                          aria-label="edit post"
-                          alignSelf="start"
-                          mr={4}
-                        />
-                      </NextLink>
-                      <IconButton
-                        icon="delete"
-                        aria-label="delete post"
-                        alignSelf="start"
-                        onClick={() => deletePost({ id: p.id })}
-                      />
-                    </Box>
+                    <EditDeletePostButtons id={p.id} />
                   )}
                 </Flex>
               </Flex>
