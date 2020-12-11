@@ -37,7 +37,7 @@ const main = async () => {
 
   // Express init
   const app = express();
-  app.set("proxy", 1);
+  app.set("trust proxy", 1);
 
   // Middlewares
   app.use(
